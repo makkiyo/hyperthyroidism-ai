@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hyperthyroidism DSS</title>
+  <style>
+    :root{
+      --purple-1:#3b1b8a;
+      --purple-2:#5a2bbf;
+      --glass-bg:rgba(255,255,255,0.12);
+      --glass-border:rgba(255,255,255,0.18);
+    }
+
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family: Arial, sans-serif; color:#fff; }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 32px;
+      background: linear-gradient(90deg, var(--purple-1), var(--purple-2));
+    }
+    .topbar .brand{ font-weight:800; }
+    .topbar .back{
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      opacity:0.9;
+    }
+    .topbar .back:hover{ opacity:1; }
+
+    /* Hero layout */
+    .hero{
+      min-height: calc(100vh - 70px);
+      background: linear-gradient(120deg, var(--purple-1), var(--purple-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+    }
+    .hero-wrap{
+      width:min(1100px, 100%);
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:30px;
+      align-items:center;
+    }
+
+    .tag{
+      font-size:12px;
+      letter-spacing:2px;
+      opacity:0.85;
+      font-weight:700;
+    }
+    h1{
+      font-size:56px;
+      margin:14px 0;
+      line-height:1.05;
+    }
+    .sub{
+      font-size:16px;
+      opacity:0.9;
+      max-width:520px;
+      line-height:1.6;
+      margin:0;
+    }
+
+    /* CTA */
+    .cta{
+      margin-top:22px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .cta .primary{
+      background:#fff;
+      color:var(--purple-1);
+      padding:12px 18px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:900;
+      display:inline-block;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    .cta .primary:hover{
+      transform: translateY(-1px);
+      opacity:0.95;
+    }
+
+    /* Card + image */
+    .card{
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter: blur(10px);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      justify-content:center;
+      min-height:360px;
+    }
+
+    .doc-wrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .doc{
+      width:92%;
+      max-width:560px;
+      border-radius:22px;
+      display:block;
+      transform: translateY(16px); /* lower the image a bit */
+    }
+
+    .note{
+      margin-top:14px;
+      font-size:12px;
+      opacity:0.85;
+      line-height:1.5;
+    }
+    .note.center{ text-align:center; margin-top:5; }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero-wrap{ grid-template-columns:1fr; }
+      h1{ font-size:42px; }
+      .doc{ width:100%; transform: translateY(0); }
+      .card{ min-height:auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="brand">Hyperthyroidism DSS</div>
+    <a class="back" href="/">Home</a>
+  </div>
+
+  <section class="hero">
+    <div class="hero-wrap">
+      <div>
+        <div class="tag">HEALTHCARE SOFTWARE AND SERVICES</div>
+        <h1>Simplify thyroid risk screening with an AI web system</h1>
+
+        <p class="sub">
+          A machine learning-based decision support tool that estimates hyperthyroidism risk using TSH, T3, and TT4.
+          Built for academic research and demonstration.
+        </p>
+
+        <div class="cta">
+          <a class="primary" href="/predict">Get Started</a>
+        </div>
+
+        <div class="note">
+          <b>Disclaimer:</b> This is for decision support only and not a medical diagnosis. Final clinical decisions
+          must be made by licensed healthcare professionals.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="doc-wrap">
+          <img class="doc" src="{{ url_for('static', filename='thyroid.jpeg') }}" alt="Thyroid illustration">
+        </div>
+
+        <div class="note center">
+          Clean interface • ML-powered prediction • Confidence output
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

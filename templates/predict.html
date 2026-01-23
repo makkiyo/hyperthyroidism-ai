@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Hyperthyroidism Risk Prediction</title>
+
+  <style>
+    :root{
+      --bg1:#3b1b8a;
+      --bg2:#5a2bbf;
+      --card: rgba(255,255,255,0.12);
+      --card-border: rgba(255,255,255,0.18);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.78);
+      --input-bg: rgba(255,255,255,0.12);
+      --input-border: rgba(255,255,255,0.26);
+      --primary:#2c7be5;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(120deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+
+    /* Simple nav like home page */
+    .nav{
+      padding:16px 28px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      font-weight:900;
+      letter-spacing:0.2px;
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      margin-left:14px;
+      opacity:0.9;
+    }
+    .nav a:hover{ opacity:1; }
+
+    .wrap{
+      padding:26px 18px 34px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .grid{
+      width:min(1050px, 100%);
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .box{
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+      display:flex;
+      flex-direction:column;
+      min-height: 420px; /* ensures same size */
+    }
+
+    .title{
+      margin:0 0 8px;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-0.2px;
+    }
+    .sub{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    form{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    label{
+      font-weight:800;
+      font-size:13px;
+      margin-bottom:6px;
+      display:block;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .input-row{
+      position:relative;
+    }
+
+    input{
+      width:100%;
+      padding:12px 46px 12px 12px;
+      border-radius:12px;
+      border:1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+
+    input::placeholder{ color: rgba(255,255,255,0.45); }
+
+    input:focus{
+      border-color: rgba(255,255,255,0.55);
+      box-shadow: 0 0 0 3px rgba(44,123,229,0.25);
+    }
+
+    .unit{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:12px;
+      font-weight:800;
+      color: rgba(255,255,255,0.75);
+      pointer-events:none;
+    }
+
+    button{
+      margin-top:6px;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background: linear-gradient(90deg, #2c7be5, #00b4ff);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    button:hover{ filter:brightness(0.96); }
+
+    .note{
+      margin-top:12px;
+      font-size:12px;
+      color: rgba(255,255,255,0.72);
+      line-height:1.4;
+    }
+
+    /* Result section */
+    .result-area{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .result-box{
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.10);
+      padding:14px;
+      text-align:center;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:10px;
+      border:1px solid rgba(255,255,255,0.22);
+      background: rgba(0,0,0,0.10);
+    }
+
+    .high{ color:#ffb4b4; }
+    .normal{ color:#b7ffcc; }
+
+    .graph{
+      margin-top:auto;     /* push chart to bottom */
+      height:220px;
+      padding:10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.08);
+    }
+
+    #confidenceChart{
+      width:100% !important;
+      height:100% !important;
+      display:block;
+    }
+
+    @media(max-width: 900px){
+      .grid{ grid-template-columns:1fr; }
+      .box{ min-height: unset; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav">
+    <div class="brand">Hyperthyroidism DSS</div>
+    <div>
+      <a href="/">Home</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="grid">
+
+      <!-- INPUT BOX -->
+      <div class="box">
+        <h2 class="title">Input</h2>
+        <p class="sub">Enter laboratory values (TSH, T3, TT4) to generate a risk prediction.</p>
+
+        <form method="POST">
+          <div class="field">
+            <label>TSH Level</label>
+            <div class="input-row">
+              <input type="number" step="any" name="tsh" placeholder="e.g., 0.40" required>
+              <span class="unit">mIU/L</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>T3 Level</label>
+            <div class="input-row">
+              <input type="number" step="any" name="t3" placeholder="e.g., 1.20" required>
+              <span class="unit">ng/mL</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>TT4 Level</label>
+            <div class="input-row">
+              <input type="number" step="any" name="tt4" placeholder="e.g., 8.00" required>
+              <span class="unit">µg/dL</span>
+            </div>
+          </div>
+
+          <button type="submit">Predict Risk</button>
+        </form>
+
+        <div class="note">
+          This system is for decision support only and not a medical diagnosis.
+        </div>
+      </div>
+
+      <!-- RESULT BOX -->
+      <div class="box">
+        <h2 class="title">Result</h2>
+        <p class="sub">The model returns the predicted class and confidence score.</p>
+
+        <div class="result-area">
+          {% if prediction %}
+            <div class="result-box">
+              <div class="badge">Prediction</div>
+              <div class="{{ 'high' if 'High' in prediction else 'normal' }}" style="font-size:16px;font-weight:900;">
+                {{ prediction }}
+              </div>
+              <div style="margin-top:8px;color:var(--muted);font-weight:800;">
+                Confidence: {{ "%.2f"|format(confidence) }}%
+              </div>
+            </div>
+          {% elif error %}
+            <div class="result-box">
+              <div class="badge">Error</div>
+              <div class="high" style="font-weight:900;">{{ error }}</div>
+            </div>
+          {% else %}
+            <div class="result-box">
+              <div class="badge">Waiting</div>
+              <div style="color:var(--muted); font-weight:800;">
+                Submit values in the Input box to display results and the chart.
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="graph">
+            <canvas id="confidenceChart"></canvas>
+          </div>
+
+          <div class="note">
+            Confidence is shown as a percentage. Higher confidence indicates stronger model certainty for the predicted class.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const predictionExists = {{ (prediction is not none) | tojson }};
+  const confidence = {{ (confidence or 0) | tojson }};
+
+  if (predictionExists) {
+    const canvas = document.getElementById("confidenceChart");
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Confidence", "Remaining"],
+        datasets: [{
+          data: [confidence, 100 - confidence],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true }
+        },
+        cutout: "70%"
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
+
