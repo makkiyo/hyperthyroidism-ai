@@ -6,4 +6,4 @@ __pycache__/
 .env
 
 # Trained ML models (large / binary)
-model/*.pkl
+# model/*.pkl
