@@ -188,12 +188,18 @@
     .normal{ color:#b7ffcc; }
 
     .graph{
-      margin-top:auto;     /* push chart to bottom */
-      height:220px;
+      margin-top:auto;
+      height:240px;
       padding:10px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,0.20);
       background: rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 768px){
+      .graph{
+        height:200px;
+      }
     }
 
     #confidenceChart{
@@ -310,26 +316,34 @@
 
   if (predictionExists) {
     const canvas = document.getElementById("confidenceChart");
-    const ctx = canvas.getContext("2d");
 
-    new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Confidence", "Remaining"],
-        datasets: [{
-          data: [confidence, 100 - confidence],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: true }
+    // Safety check for mobile browsers
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Confidence", "Remaining"],
+          datasets: [{
+            data: [confidence, 100 - confidence],
+            backgroundColor: ["#4CAF50", "#444"],
+            borderWidth: 0
+          }]
         },
-        cutout: "70%"
-      }
-    });
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              labels: { color: "#fff" }
+            }
+          },
+          cutout: "70%"
+        }
+      });
+    }
   }
 </script>
 
