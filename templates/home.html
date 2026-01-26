@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hyperthyroidism DSS</title>
+
   <style>
     :root{
       --purple-1:#3b1b8a;
@@ -33,7 +35,7 @@
 
     /* Hero layout */
     .hero{
-      min-height: calc(100vh - 70px);
+      min-height: calc(100vh - 64px);
       background: linear-gradient(120deg, var(--purple-1), var(--purple-2));
       display:flex;
       align-items:center;
@@ -83,6 +85,7 @@
       font-weight:900;
       display:inline-block;
       transition: transform .15s ease, opacity .15s ease;
+      white-space:nowrap;
     }
     .cta .primary:hover{
       transform: translateY(-1px);
@@ -114,7 +117,8 @@
       max-width:560px;
       border-radius:22px;
       display:block;
-      transform: translateY(16px); /* lower the image a bit */
+      transform: translateY(16px);
+      height:auto;
     }
 
     .note{
@@ -123,14 +127,90 @@
       opacity:0.85;
       line-height:1.5;
     }
-    .note.center{ text-align:center; margin-top:5; }
+    .note.center{
+      text-align:center;
+      margin-top:5px;
+    }
 
-    /* Responsive */
+    /* ===== Responsive (tablet & below) ===== */
     @media (max-width: 900px){
       .hero-wrap{ grid-template-columns:1fr; }
       h1{ font-size:42px; }
       .doc{ width:100%; transform: translateY(0); }
       .card{ min-height:auto; }
+    }
+
+    /* ===== Mobile (best looking) ===== */
+    @media (max-width: 768px){
+      .topbar{
+        padding:12px 16px;
+      }
+      .topbar .brand{
+        font-size:15px;
+      }
+      .topbar .back{
+        font-size:14px;
+      }
+
+      .hero{
+        padding:24px 16px;
+        min-height:auto;
+      }
+
+      .hero-wrap{
+        gap:18px;
+      }
+
+      .tag{
+        font-size:11px;
+        letter-spacing:1.5px;
+      }
+
+      h1{
+        font-size:34px;
+        line-height:1.15;
+        margin:10px 0;
+      }
+
+      .sub{
+        font-size:14px;
+        max-width:100%;
+      }
+
+      /* Center content on mobile */
+      .hero-wrap > div:first-child{
+        text-align:center;
+      }
+      .sub{
+        margin:0 auto;
+      }
+      .cta{
+        justify-content:center;
+      }
+      .cta .primary{
+        width:100%;
+        max-width:320px;
+        text-align:center;
+      }
+
+      .card{
+        padding:14px;
+      }
+      .doc{
+        max-width:420px;
+        border-radius:18px;
+      }
+    }
+
+    /* ===== Small phones ===== */
+    @media (max-width: 420px){
+      h1{ font-size:30px; }
+      .cta .primary{ max-width:100%; }
+      .note{ font-size:11px; }
+    }
+
+    @media (max-width: 768px){
+      .topbar{ display:none; }
     }
   </style>
 </head>
@@ -138,7 +218,7 @@
 <body>
   <div class="topbar">
     <div class="brand">Hyperthyroidism DSS</div>
-    <a class="back" href="/">Home</a>
+    <a class="back" href="/"></a>
   </div>
 
   <section class="hero">
