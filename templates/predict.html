@@ -5,40 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Hyperthyroidism Risk Prediction</title>
 
+  <!-- ✅ Industry font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg1:#3b1b8a;
+      --bg1:#2d136f;
       --bg2:#5a2bbf;
-      --card: rgba(255,255,255,0.12);
-      --card-border: rgba(255,255,255,0.18);
+      --bg3:#7b5cff;
+
+      --card: rgba(255,255,255,0.10);
+      --card-border: rgba(255,255,255,0.16);
+
       --text:#ffffff;
       --muted: rgba(255,255,255,0.78);
-      --input-bg: rgba(255,255,255,0.12);
-      --input-border: rgba(255,255,255,0.26);
+
+      --input-bg: rgba(255,255,255,0.10);
+      --input-border: rgba(255,255,255,0.22);
+
       --primary:#2c7be5;
+      --primary2:#00b4ff;
+
+      --radius:20px;
     }
 
     *{ box-sizing:border-box; }
 
     body{
       margin:0;
-      font-family: Arial, sans-serif;
+      font-family: Inter, Arial, sans-serif;
       color:var(--text);
-      background: linear-gradient(120deg, var(--bg1), var(--bg2));
       min-height:100vh;
+
+      background:
+        radial-gradient(circle at 20% 25%, rgba(123,92,255,0.35), transparent 40%),
+        radial-gradient(circle at 80% 75%, rgba(90,43,191,0.35), transparent 42%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      background-attachment: fixed;
     }
 
-    /* Simple nav like home page */
+    /* ✅ Clean nav (glass) */
     .nav{
       padding:16px 28px;
       display:flex;
       align-items:center;
       justify-content:space-between;
+
+      background: rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
+
     .brand{
       font-weight:900;
       letter-spacing:0.2px;
+      font-size:14px;
+      opacity:0.95;
     }
+
     .nav a{
       color:var(--text);
       text-decoration:none;
@@ -48,49 +75,65 @@
     }
     .nav a:hover{ opacity:1; }
 
+    /* ✅ Center the cards vertically */
     .wrap{
-      padding:26px 18px 34px;
+      min-height: calc(100vh - 72px);
+      padding: 28px 18px 36px;
       display:flex;
+      align-items:center;
       justify-content:center;
+      transform: translateY(10px);
     }
 
     .grid{
       width:min(1050px, 100%);
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:18px;
+      gap:20px;
       align-items:stretch;
     }
 
+    /* ✅ Premium glass card */
     .box{
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius:18px;
-      padding:18px;
-      box-shadow: 0 18px 35px rgba(0,0,0,0.25);
-      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding:22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
       display:flex;
       flex-direction:column;
-      min-height: 420px; /* ensures same size */
+      min-height: 460px;
+
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .box:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.24);
+      box-shadow: 0 28px 70px rgba(0,0,0,0.42);
     }
 
     .title{
-      margin:0 0 8px;
-      font-size:18px;
+      margin:0 0 10px;
+      font-size:20px;
       font-weight:900;
-      letter-spacing:-0.2px;
+      letter-spacing:-0.3px;
     }
+
     .sub{
-      margin:0 0 14px;
+      margin:0 0 18px;
       color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
+      font-size:14px;
+      line-height:1.6;
     }
 
     form{
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:14px;
     }
 
     label{
@@ -98,33 +141,39 @@
       font-size:13px;
       margin-bottom:6px;
       display:block;
+      color: rgba(255,255,255,0.90);
     }
 
     .field{
       display:flex;
       flex-direction:column;
+      gap:6px;
     }
 
     .input-row{
       position:relative;
     }
 
+    /* ✅ Cleaner input */
     input{
       width:100%;
-      padding:12px 46px 12px 12px;
-      border-radius:12px;
+      padding:13px 50px 13px 14px;
+      border-radius:14px;
       border:1px solid var(--input-border);
       background: var(--input-bg);
       color: var(--text);
       outline:none;
       font-size:14px;
+
+      transition: border-color .12s ease, box-shadow .12s ease, transform .12s ease;
     }
 
     input::placeholder{ color: rgba(255,255,255,0.45); }
 
     input:focus{
       border-color: rgba(255,255,255,0.55);
-      box-shadow: 0 0 0 3px rgba(44,123,229,0.25);
+      box-shadow: 0 0 0 4px rgba(44,123,229,0.22);
+      transform: translateY(-1px);
     }
 
     .unit{
@@ -134,30 +183,40 @@
       transform:translateY(-50%);
       font-size:12px;
       font-weight:800;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.72);
       pointer-events:none;
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(0,0,0,0.10);
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
+    /* ✅ Premium button */
     button{
       margin-top:6px;
-      padding:12px;
+      padding:13px;
       border:none;
-      border-radius:12px;
-      background: linear-gradient(90deg, #2c7be5, #00b4ff);
+      border-radius:14px;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
       color:#fff;
       font-weight:900;
       cursor:pointer;
+
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+      box-shadow: 0 12px 26px rgba(0,0,0,0.25);
     }
-    button:hover{ filter:brightness(0.96); }
+
+    button:hover{ filter:brightness(0.97); }
+    button:active{ transform: translateY(1px); }
 
     .note{
       margin-top:12px;
       font-size:12px;
-      color: rgba(255,255,255,0.72);
-      line-height:1.4;
+      color: rgba(255,255,255,0.70);
+      line-height:1.5;
     }
 
-    /* Result section */
+    /* ✅ Result section */
     .result-area{
       flex:1;
       display:flex;
@@ -166,40 +225,39 @@
     }
 
     .result-box{
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.20);
-      background: rgba(255,255,255,0.10);
-      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      padding:16px;
       text-align:center;
     }
 
+    /* ✅ Industry badge */
     .badge{
-      display:inline-block;
-      padding:6px 10px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
       border-radius:999px;
       font-size:12px;
       font-weight:900;
-      margin-bottom:10px;
-      border:1px solid rgba(255,255,255,0.22);
-      background: rgba(0,0,0,0.10);
+      margin-bottom:12px;
+
+      border:1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.92);
     }
 
-    .high{ color:#ffb4b4; }
-    .normal{ color:#b7ffcc; }
+    .high{ color:#ffb1b1; }
+    .normal{ color:#9dffbf; }
 
     .graph{
       margin-top:auto;
       height:240px;
-      padding:10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.20);
-      background: rgba(255,255,255,0.08);
-    }
-
-    @media (max-width: 768px){
-      .graph{
-        height:200px;
-      }
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
     }
 
     #confidenceChart{
@@ -208,9 +266,15 @@
       display:block;
     }
 
-    @media(max-width: 900px){
+    @media (max-width: 900px){
       .grid{ grid-template-columns:1fr; }
       .box{ min-height: unset; }
+      .wrap{ transform: translateY(0); }
+    }
+
+    @media (max-width: 768px){
+      .nav{ padding:12px 16px; }
+      .graph{ height:200px; }
     }
   </style>
 </head>
@@ -274,10 +338,10 @@
           {% if prediction %}
             <div class="result-box">
               <div class="badge">Prediction</div>
-              <div class="{{ 'high' if 'High' in prediction else 'normal' }}" style="font-size:16px;font-weight:900;">
+              <div class="{{ 'high' if 'High' in prediction else 'normal' }}" style="font-size:18px;font-weight:900;">
                 {{ prediction }}
               </div>
-              <div style="margin-top:8px;color:var(--muted);font-weight:800;">
+              <div style="margin-top:10px;color:var(--muted);font-weight:800;">
                 Confidence: {{ "%.2f"|format(confidence) }}%
               </div>
             </div>
@@ -310,43 +374,53 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-  const predictionExists = {{ (prediction is not none) | tojson }};
-  const confidence = {{ (confidence or 0) | tojson }};
+  <script>
+    const predictionExists = {{ (prediction is not none) | tojson }};
+    const confidence = {{ (confidence or 0) | tojson }};
+    const predictionText = {{ (prediction or "") | tojson }};
 
-  if (predictionExists) {
-    const canvas = document.getElementById("confidenceChart");
+    // ✅ Industry look: auto-color chart (green normal, red high)
+    const isHigh = (predictionText || "").toLowerCase().includes("high");
+    const mainColor = isHigh ? "rgba(255, 99, 132, 0.95)" : "rgba(46, 213, 115, 0.95)";
+    const remainingColor = "rgba(255,255,255,0.16)";
 
-    // Safety check for mobile browsers
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
+    if (predictionExists) {
+      const canvas = document.getElementById("confidenceChart");
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
 
-      new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: ["Confidence", "Remaining"],
-          datasets: [{
-            data: [confidence, 100 - confidence],
-            backgroundColor: ["#4CAF50", "#444"],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              labels: { color: "#fff" }
-            }
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Confidence", "Remaining"],
+            datasets: [{
+              data: [confidence, 100 - confidence],
+              backgroundColor: [mainColor, remainingColor],
+              borderWidth: 0,
+              hoverOffset: 6
+            }]
           },
-          cutout: "70%"
-        }
-      });
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  color: "rgba(255,255,255,0.85)",
+                  boxWidth: 12
+                }
+              },
+              tooltip: {
+                enabled: true
+              }
+            },
+            cutout: "70%"
+          }
+        });
+      }
     }
-  }
-</script>
+  </script>
 
 </body>
 </html>
-

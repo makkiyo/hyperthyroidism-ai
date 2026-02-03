@@ -5,48 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hyperthyroidism DSS</title>
 
+  <!-- ✅ Industry font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --purple-1:#3b1b8a;
+      --purple-1:#2d136f;
       --purple-2:#5a2bbf;
-      --glass-bg:rgba(255,255,255,0.12);
-      --glass-border:rgba(255,255,255,0.18);
+      --purple-3:#7b5cff;
+
+      --glass-bg: rgba(255,255,255,0.10);
+      --glass-border: rgba(255,255,255,0.16);
+
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.82);
+
+      --radius:20px;
     }
 
     *{ box-sizing:border-box; }
-    body{ margin:0; font-family: Arial, sans-serif; color:#fff; }
 
-    /* Top bar */
+    body{
+      margin:0;
+      font-family: Inter, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+
+      /* ✅ Premium background (same style as predict page) */
+      background:
+        radial-gradient(circle at 20% 25%, rgba(123,92,255,0.35), transparent 40%),
+        radial-gradient(circle at 80% 75%, rgba(90,43,191,0.35), transparent 42%),
+        linear-gradient(135deg, var(--purple-1), var(--purple-2), var(--purple-3));
+      background-attachment: fixed;
+    }
+
+    /* ✅ Top bar (glass, not flat) */
     .topbar{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:16px 32px;
-      background: linear-gradient(90deg, var(--purple-1), var(--purple-2));
+      padding:16px 28px;
+
+      background: rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
-    .topbar .brand{ font-weight:800; }
+
+    .topbar .brand{
+      font-weight:900;
+      letter-spacing:0.2px;
+      font-size:14px;
+      opacity:0.95;
+    }
+
     .topbar .back{
       color:#fff;
       text-decoration:none;
-      font-weight:600;
+      font-weight:800;
       opacity:0.9;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
     }
-    .topbar .back:hover{ opacity:1; }
+    .topbar .back:hover{
+      opacity:1;
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.22);
+    }
 
-    /* Hero layout */
+    /* ✅ Hero layout */
     .hero{
       min-height: calc(100vh - 64px);
-      background: linear-gradient(120deg, var(--purple-1), var(--purple-2));
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:40px;
+      padding:42px 20px;
     }
+
     .hero-wrap{
       width:min(1100px, 100%);
       display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap:30px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:24px;
       align-items:center;
     }
 
@@ -54,163 +99,152 @@
       font-size:12px;
       letter-spacing:2px;
       opacity:0.85;
-      font-weight:700;
+      font-weight:800;
     }
+
     h1{
-      font-size:56px;
-      margin:14px 0;
-      line-height:1.05;
+      font-size:54px;
+      margin:14px 0 12px;
+      line-height:1.08;
+      letter-spacing:-0.6px;
     }
+
     .sub{
-      font-size:16px;
-      opacity:0.9;
-      max-width:520px;
-      line-height:1.6;
+      font-size:15px;
+      color:var(--muted);
+      max-width:560px;
+      line-height:1.7;
       margin:0;
     }
 
-    /* CTA */
+    /* ✅ CTA */
     .cta{
       margin-top:22px;
       display:flex;
       gap:12px;
       align-items:center;
     }
+
     .cta .primary{
-      background:#fff;
-      color:var(--purple-1);
+      background: linear-gradient(90deg, rgba(44,123,229,1), rgba(0,180,255,1));
+      color:#fff;
       padding:12px 18px;
       border-radius:999px;
       text-decoration:none;
       font-weight:900;
       display:inline-block;
-      transition: transform .15s ease, opacity .15s ease;
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.25);
       white-space:nowrap;
     }
+
     .cta .primary:hover{
       transform: translateY(-1px);
-      opacity:0.95;
+      filter: brightness(0.98);
     }
 
-    /* Card + image */
+    .cta .primary:active{
+      transform: translateY(1px);
+    }
+
+    /* ✅ Premium glass card */
     .card{
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius:18px;
+      border-radius: var(--radius);
       padding:18px;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+
       display:flex;
       flex-direction:column;
       gap:12px;
       justify-content:center;
-      min-height:360px;
+
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 28px 70px rgba(0,0,0,0.42);
     }
 
     .doc-wrap{
       display:flex;
       justify-content:center;
       align-items:center;
+      border-radius: calc(var(--radius) - 6px);
+      overflow:hidden;
+
+      /* subtle frame */
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.10);
     }
 
     .doc{
-      width:92%;
+      width:100%;
       max-width:560px;
-      border-radius:22px;
       display:block;
-      transform: translateY(16px);
       height:auto;
+
+      /* Make image feel “product” */
+      transform: scale(1.02);
+      filter: contrast(1.02) saturate(1.05);
     }
 
     .note{
       margin-top:14px;
       font-size:12px;
-      opacity:0.85;
+      color: rgba(255,255,255,0.75);
       line-height:1.5;
     }
+
     .note.center{
       text-align:center;
-      margin-top:5px;
+      margin-top:6px;
+      opacity:0.9;
+      font-weight:700;
     }
 
-    /* ===== Responsive (tablet & below) ===== */
+    /* ===== Responsive ===== */
     @media (max-width: 900px){
       .hero-wrap{ grid-template-columns:1fr; }
-      h1{ font-size:42px; }
-      .doc{ width:100%; transform: translateY(0); }
-      .card{ min-height:auto; }
+      h1{ font-size:40px; }
+      .card{ padding:14px; }
     }
 
-    /* ===== Mobile (best looking) ===== */
     @media (max-width: 768px){
-      .topbar{
-        padding:12px 16px;
-      }
-      .topbar .brand{
-        font-size:15px;
-      }
-      .topbar .back{
-        font-size:14px;
-      }
+      .topbar{ padding:12px 16px; }
+      .hero{ padding:26px 16px; min-height:auto; }
 
-      .hero{
-        padding:24px 16px;
-        min-height:auto;
-      }
-
-      .hero-wrap{
-        gap:18px;
-      }
-
-      .tag{
-        font-size:11px;
-        letter-spacing:1.5px;
-      }
+      .tag{ font-size:11px; letter-spacing:1.5px; }
 
       h1{
         font-size:34px;
-        line-height:1.15;
-        margin:10px 0;
+        line-height:1.14;
+        margin:10px 0 10px;
       }
 
-      .sub{
-        font-size:14px;
-        max-width:100%;
-      }
+      .sub{ font-size:14px; }
 
-      /* Center content on mobile */
       .hero-wrap > div:first-child{
         text-align:center;
       }
-      .sub{
-        margin:0 auto;
-      }
-      .cta{
-        justify-content:center;
-      }
+
+      .sub{ margin:0 auto; }
+      .cta{ justify-content:center; }
       .cta .primary{
         width:100%;
         max-width:320px;
         text-align:center;
       }
-
-      .card{
-        padding:14px;
-      }
-      .doc{
-        max-width:420px;
-        border-radius:18px;
-      }
     }
 
-    /* ===== Small phones ===== */
     @media (max-width: 420px){
       h1{ font-size:30px; }
-      .cta .primary{ max-width:100%; }
       .note{ font-size:11px; }
-    }
-
-    @media (max-width: 768px){
-      .topbar{ display:none; }
     }
   </style>
 </head>
@@ -218,7 +252,9 @@
 <body>
   <div class="topbar">
     <div class="brand">Hyperthyroidism DSS</div>
-    <a class="back" href="/"></a>
+
+    <!-- ✅ fix: your link text was empty -->
+    <a class="back" href="/predict">Go to Predictor</a>
   </div>
 
   <section class="hero">
